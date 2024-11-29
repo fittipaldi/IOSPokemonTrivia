@@ -18,12 +18,19 @@ struct ContentView: View {
     @State private var imageURL: String = ""
     @State private var activeAnswer: Bool = true
     @State private var showAlert: Bool = false
+    @State private var score: Int = 0
+    @State private var gamerCounter: Int = 0
 
     var body: some View {
         VStack(spacing: 20) {
             Text("Pokémon Trivia")
                 .font(.largeTitle)
                 .fontWeight(.bold)
+            
+            Text("Score: \(gamerCounter)/\(score)")
+                .font(.title3)
+                .foregroundColor(.brown)
+                .multilineTextAlignment(.center)
             
             if let url = URL(string: imageURL) {
                 AsyncImage(url: url) { phase in
@@ -114,8 +121,10 @@ struct ContentView: View {
 
     private func checkAnswer(_ selected: String) {
         if activeAnswer {
+            gamerCounter += 1
             activeAnswer = false
             if selected == correctAnswer {
+                score += 1
                 questionAnswer = "Correct!"
                 questionAnswerColor = .green
             } else {
